@@ -1,5 +1,13 @@
 import React from "react";
-import {TouchableWithoutFeedback,View,Image,Text,Dimensions} from "react-native";
+import {
+    TouchableWithoutFeedback,
+    View,
+    Image,
+    Text,
+    Dimensions,
+    Animated,
+    Easing
+} from "react-native";
 import IconButton from "./IconButton"
 
 let { width, height } = Dimensions.get('window');
@@ -16,11 +24,40 @@ const Card = ({
     bookmarkAction,
     shareAction
 })=> {
+    let scaleValue = new Animated.Value(0); // declare an animated value
+
+    const cardScale= scaleValue.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [1, 1.1, 1.2]
+    });
+
+    let transformStyle = { ...styles.card, transform: [{scale: cardScale}] };
+
     return (
         <TouchableWithoutFeedback
-            onPress={cardAction}
+            onPress={()=>{
+                cardAction();
+            }}
+            onPressIn={()=>{
+                scaleValue.setValue(0);
+                Animated.timing(scaleValue,{
+                    toValue: 1,
+                    duration: 100,
+                    easing: Easing.linear,
+                    useNativeDriver: true
+                }).start();
+
+            }}
+            onPressOut={()=>{
+                Animated.timing(scaleValue,{
+                    toValue: 0,
+                    duration:200,
+                    easing: Easing.linear,
+                    useNativeDriver: true
+                }).start();
+            }}
         >
-            <View style={styles.card}>
+            <Animated.View style={transformStyle}>
                 <Image source={item.img} style={styles.thumbnail}/>
                 <Text style={styles.name}>{item.manufacturer + " - " + item.model}</Text>
                 <Text style={styles.name}>{ "price: " + item.price + "$"}</Text>
@@ -44,7 +81,7 @@ const Card = ({
                             shareAction();
                         }}/>
                 </View>
-            </View>
+            </Animated.View>
 
         </TouchableWithoutFeedback>
     );
