@@ -26,7 +26,7 @@ const CardList = ({
                     renderItem={({item}) => (
                         <Card
                             item={item}
-                            cardActon={cardAction}
+                            cardAction={cardAction}
                             viewAction={viewAction}
                             bookmarkAction={bookmarkAction}
                             shareAction={shareAction}

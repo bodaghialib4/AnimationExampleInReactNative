@@ -25,6 +25,7 @@ export default class App extends Component<{}> {
     }
 
     cardAction = () => {
+        console.log("cardAction called.");
     };
 
     viewAction = (name, price, image, quality) => {
