@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
-import {Dimensions, View} from 'react-native';
+import {
+    Dimensions,
+    View,
+    Animated
+} from 'react-native';
 let {width,height} = Dimensions.get('window');
 if( width > height ) {
     let temp=width;
@@ -8,10 +12,36 @@ if( width > height ) {
 }
 
 export default class AnimatedBar extends Component <{}>{
+    constructor(props){
+        super(props);
+        this.width = new Animated.Value(0);
+    }
+
+    componentDidMount(){
+        this.animateBar();
+    }
+
+    componentDidUpdate(){
+        this.animateBar();
+    }
+
+    animateBar = ()=>{
+        const {value,index} = this.props;
+        this.width.setValue(0);  // initialize the animated value
+        Animated.timing(this.width,{
+            toValue: value,
+            delay: index * 150, // how long to wait before actually starting the animation
+        }).start();
+    };
+
     render(){
-        let widthStyle = { width: (this.props.value/5) * width/2.1 };
+        let barWidth = this.width.interpolate({
+            inputRange:[0,5],
+            outputRange:[0,width/2.1]
+        })
+        let barWidthStyle = {width: barWidth};
         return(
-            <View style={[styles.bar, widthStyle]} />
+            <Animated.View style={[styles.bar, barWidthStyle]} />
         )
     }
 }
