@@ -90,7 +90,7 @@ const Card = ({
 const styles = {
     card:{
         width: width/1.3,
-        height: height/3.8,
+        height: height/3.5,
         backgroundColor: "#fafbfc",
         padding: 10,
         margin: 10,
