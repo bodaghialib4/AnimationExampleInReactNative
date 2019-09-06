@@ -62,8 +62,8 @@ and when closing information page, it transmit to down until disappear from scre
 
 #### width animation
 
-The width of car ranking features in information page are animated.\
-When information page appeared, width of each features are animated from zero to their amount.
+The width of car rated specifications in information page are animated.\
+When information page appeared, width of each specifications are animated from zero to their amount.
 
 ![width animation](readMeImages/widthAnimation.gif)
 
