@@ -34,7 +34,7 @@ This application shows list of cars and their rated specifications.\
 Each card in list become animated.\
 When press in a card, it scale 1.2 time bigger than normal and when press out it become to normal scale .
 
-![scale animation gif](readMeImages/withoutAnimation.gif)
+![scale animation gif](readMeImages/scaleAnimation.gif)
 
 
 -----------
