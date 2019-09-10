@@ -4,24 +4,33 @@
 
 import React, {Component} from 'react';
 import {
-  View,
-  StatusBar,
+    View,
+    StatusBar,
+    Platform,
+    Animated
 } from 'react-native';
 import CardList from "./src/components/CardList";
 import Header from "./src/components/Header";
 import AnimatedModal from "./src/components/AnimatedModal";
 import BigCard from './src/components/BigCard'
 import car from "./src/data/cars"
+import {HEADER_MAX_HEIGHT} from "./src/settings/layout"
+import AnimatedHeader from "./src/components/AnimatedHeader";
 
 export default class App extends Component<{}> {
 
-    state = {
-        isModalVisible: false
-    };
-
     constructor(props) {
         super(props);
+
+        this.state = {
+            isModalVisible: false
+        };
+
         this.car_quality = [];
+
+        this.nativeScrollY = new Animated.Value(
+            Platform.OS === "ios" ? -HEADER_MAX_HEIGHT : 0
+        );
     }
 
     cardAction = () => {
@@ -54,18 +63,31 @@ export default class App extends Component<{}> {
 
 
     render() {
+        let nativeScrollY = Animated.add(
+            this.nativeScrollY,
+            Platform.OS === "ios" ? HEADER_MAX_HEIGHT : 0
+        );
+
         return (
             <View style={styles.container}>
                 <StatusBar hidden={true} barStyle="light-content"/>
 
-                <Header title={"Car Gallery"}/>
-                <CardList
-                    data={car}
-                    cardAction={this.cardAction}
-                    viewAction={this.viewAction}
-                    bookmarkAction={this.bookmarkAction}
-                    shareAction={this.shareAction}
+                <AnimatedHeader
+                    title={"Car Gallery"}
+                    nativeScrollY={nativeScrollY}
                 />
+                {this.nativeScrollY && (
+                    <CardList
+                        data={car}
+                        cardAction={this.cardAction}
+                        viewAction={this.viewAction}
+                        bookmarkAction={this.bookmarkAction}
+                        shareAction={this.shareAction}
+                        onScroll={Animated.event(
+                            [{nativeEvent: {contentOffset: {y: this.nativeScrollY}}}],
+                            {useNativeDriver: true})}
+                    />
+                )}
                 <AnimatedModal
                     title={"View Car Info"}
                     visible={this.state.isModalVisible}

@@ -86,3 +86,14 @@ This part implemented in information page of each car and has three animation th
 
 -----------
 
+### header scroll animation
+
+A header banner added to top of scroll View and animated when scrolling down.\
+When scrolling down, the height of header shrink and the image of header fade out and vanished. the title of header shrink too, but persist in header bar.
+
+![header scroll animation](readMeImages/headerScrollAnimation.gif)
+
+
+
+
+------------

@@ -1,14 +1,14 @@
 import React from 'react';
-import {View,Text,Dimensions} from 'react-native';
+import {View, Text, Dimensions} from 'react-native';
 
-let {width,height} = Dimensions.get('window');
-if( width > height ) {
-    let temp=width;
-    width=height;
-    height=temp;
+let {width, height} = Dimensions.get('window');
+if (width > height) {
+    let temp = width;
+    width = height;
+    height = temp;
 }
 
-const Header = ({title,children})=>{
+const Header = ({title, children}) => {
     return (
         <View style={styles.header}>
             <Text style={styles.header_text}>{title}</Text>
@@ -18,8 +18,8 @@ const Header = ({title,children})=>{
 };
 
 const styles = {
-    header:{
-        paddingTop: height/20,
+    header: {
+        paddingTop: height / 20,
         backgroundColor: "#3e3e3e"
     },
     header_text: {
@@ -31,7 +31,7 @@ const styles = {
     },
     childrenContainer: {
         position: "absolute",
-        top: height/18,
+        top: height / 18,
         right: 10
     }
 };

@@ -1,24 +1,44 @@
 import React from "react";
-import {ScrollView,View,FlatList,Dimensions} from "react-native";
+import {
+    ScrollView,
+    View,
+    FlatList,
+    Dimensions,
+    Animated,
+    Platform
+} from "react-native";
 import Card from "./Card"
+import {HEADER_MAX_HEIGHT} from "../settings/layout"
 
-let {width,height} = Dimensions.get('window');
-if( width > height ) {
-    let temp=width;
-    width=height;
-    height=temp;
+let {width, height} = Dimensions.get('window');
+if (width > height) {
+    let temp = width;
+    width = height;
+    height = temp;
 }
 
-const CardList = ({
-    data,
-    cardAction,
-    viewAction,
-    bookmarkAction,
-    shareAction
-})=> {
+const CardList = (
+    {
+        data,
+        cardAction,
+        viewAction,
+        bookmarkAction,
+        shareAction,
+        onScroll
+    }) => {
+
     return (
-        <ScrollView style={{height: height / 1.1}}>
-            <View style={{alignItems: "center"}}>
+        <Animated.ScrollView
+            style={styles.scroll}
+            onScroll={onScroll}
+            contentInset={{
+                top: HEADER_MAX_HEIGHT
+            }}
+            contentOffset={{
+                y: -HEADER_MAX_HEIGHT
+            }}
+        >
+            <View style={styles.scroll_container}>
                 <FlatList
                     data={data}
                     keyExtractor={item => `${item.id}`}
@@ -34,9 +54,18 @@ const CardList = ({
                     )}
                 />
             </View>
-        </ScrollView>
+        </Animated.ScrollView>
     );
 };
 
 export default CardList;
 
+const styles = {
+    scroll: {
+        flex: 1,
+    },
+    scroll_container: {
+        alignItems: "center",
+        paddingTop: Platform.OS === "android" ? HEADER_MAX_HEIGHT : 0
+    }
+};
